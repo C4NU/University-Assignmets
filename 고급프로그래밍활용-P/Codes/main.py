@@ -1,26 +1,25 @@
-r = int(input())
-g = int(input())
-b = int(input())
+male_age_sum = 0
+female_age_sum = 0
 
-if r > 0:
-	if g > 0:
-		if b > 0:
-			print('white')
-		else:
-			print('yellow')
+oldest_sex = 'm'
+oldest_age = 0
+
+for i in range(0, 5):
+	input_sex = input()
+	input_age = int(input())
+
+	if input_sex == 'm':
+		male_age_sum += input_age
 	else:
-		if b > 0:
-			print('magenta')
-		else:
-			print('red')
+		female_age_sum += input_age
+
+	if oldest_age < input_age:
+		oldest_age = input_age
+		oldest_sex = input_sex
+
+if male_age_sum >= female_age_sum:
+	print(f"m {male_age_sum}")
 else:
-	if g > 0:
-		if b > 0:
-			print('cyan')
-		else:
-			print('green')
-	else:
-		if b > 0:
-			print('blue')
-		else:
-			print('black')
+	print(f"f {female_age_sum}")
+
+print(f"{oldest_sex} {oldest_age}")
