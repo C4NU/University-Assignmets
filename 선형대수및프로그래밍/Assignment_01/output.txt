@@ -1,0 +1,34 @@
+Add A B B 
+23 26 29 
+32 35 38 
+41 44 47 
+
+Mul A B B A 
+184680 197748 210816 
+444528 475983 507438 
+704376 754218 804060 
+
+Trace A
+15
+
+Add A B B 
+38 38 38 38 
+38 38 38 38 
+38 38 38 38 
+
+Mul 2 A B: Can not operate Mul because of Multiply rule violation.
+
+Trace B: Can not operate Trace, Because of non-Square Matrix.
+
+Trace C
+33
+
+Add 2 A B: Can not operate Add because incompatible dimensions for standard matrix add.
+
+Mul A B 
+384 384 384 
+384 384 384 
+384 384 384 
+
+Trace B: Can not operate Trace, Because of non-Square Matrix.
+
