@@ -16,6 +16,10 @@ def list_to_string(str_list):
 
 	return result.strip()
 
+def init_output_file(file_path):
+	f = open(file_path, 'w')
+	f.close()
+
 # 파일 경로 기반으로 읽어오는 read_file 함수
 def read_file(file_path, i):
 	# 데이터 편집을 위한 flag 변수
@@ -88,8 +92,10 @@ def read_file(file_path, i):
 					matrix_size = (int(matrix_info[1]), int(matrix_info[2]))
 					matrix_data = []
 					# 행렬 2차원 배열 삽입 (n:m 비율로 수정해야함)
-					# matrix_size[0]: 행
-					# matrix_size[1]: 열
+					# matrix_size[0]: 행 (row)
+					# matrix_size[1]: 열 (col)
+					matrix_row = matrix_size[0]
+					matrix_col = matrix_size[1]
 					for j in range(index + 1, index + 1 + matrix_size[1]):
 						matrix_data.append(list(map(int, lines[j].strip().split())))
 						matrices[matrix_name] = {
@@ -146,7 +152,6 @@ def calculation(matrices, operations, file_path):
 		# 연산 명령어 쪼개기
 		operation_parts = operations[index].split()
 		# DEBUG
-		# print(f"{index+1}번째 연산, {operation_parts}")
 		if operation_parts[0] == 'Add':
 			# 행렬 덧셈 연산 후 저장
 			try:
@@ -226,6 +231,7 @@ def calculation(matrices, operations, file_path):
 				f.write(f"{operations[index]}: Can not operate Minus because of incompatible dimensions for standard matrix minus." + "\n")
 
 		elif operation_parts[0] == 'Mul':
+			_flag = 0
 			# 행렬 곱셈 연산 후 저장
 			def multiply(matrix_1, matrix_2):
 				result = [[0]*len(matrix_2[0]) for _ in range(len(matrix_1))]
@@ -235,6 +241,7 @@ def calculation(matrices, operations, file_path):
 						for k in range(len(matrix_1[0])): 
 							result[i][j] += matrix_1[i][k] * matrix_2[k][j]
 				return result
+			
 			try:
 				# 가져온 행렬의 크기와 데이터
 				operand_count = int(operation_parts[1])
@@ -242,27 +249,47 @@ def calculation(matrices, operations, file_path):
 				matrix_1 = matrices[operation_parts[2]]['data']
 				matrix_2 = matrices[operation_parts[3]]['data']
 
-				result = multiply(matrix_1=matrix_1, matrix_2=matrix_2)
+				matrix_1_row = len(matrix_1)
+				matrix_2_col = len(matrix_2[0])
 				
-				if operand_count >= 3:
-					for i in range(3, operand_count+1):
-						matrix = matrices[operation_parts[i]]['data']
-						result = multiply(matrix_1=result, matrix_2=matrix)
+				if matrix_1_row == matrix_2_col:
+					result = multiply(matrix_1=matrix_1, matrix_2=matrix_2)
+				
+					if operand_count >= 3:
+						for i in range(4, len(operation_parts)):
+							matrix = matrices[operation_parts[i]]['data']
+						
+							matrix_1_row = len(matrix)
+							matrix_2_col = len(result[0])
+
+							if matrix_1_row == matrix_2_col:
+								result = multiply(matrix_1=result, matrix_2=matrix)
+							else:
+								f.write(f"{operations[index]}: Can not operate Mul because of Multiply rule violation." + "\n")
+								_flag = 1
+								break
+					
+					if _flag == 0:
+						# 연산 결과를 파일에 쓰기
+						operation_result = ""
+						for i in range(len(operation_parts)):
+							if i == 1:
+								continue
+							else:
+								operation_result += operation_parts[i] + " "
+						f.write(operation_result + "\n")
+
+						for i in range(len(result)):
+							for j in range(len(result[0])):
+								f.write(str(result[i][j]) + " ")
+							f.write("\n")
+					
+				else:
+					f.write(f"{operations[index]}: Can not operate Mul because of Multiply rule violation." + "\n")
+					break
 
 
-				# 연산 결과를 파일에 쓰기
-				operation_result = ""
-				for i in range(len(operation_parts)):
-					if i == 1:
-						continue
-					else:
-						operation_result += operation_parts[i] + " "
-				f.write(operation_result + "\n")
 
-				for i in range(len(result)):
-					for j in range(len(result[0])):
-						f.write(str(result[i][j]) + " ")
-					f.write("\n")
 			except:
 				print("Mul 명령어 연산 정보 불량.")
 				f.write(f"{operations[index]}: Can not operate Mul because of Multiply rule violation." + "\n")
@@ -303,7 +330,8 @@ def main():
 	input_file_path = "input.txt"
 	# 파일을 출력할 경로와 파일명
 	output_file_path = "output.txt"
-
+	
+	init_output_file(output_file_path)
 	i = 0
 
 	while True:
