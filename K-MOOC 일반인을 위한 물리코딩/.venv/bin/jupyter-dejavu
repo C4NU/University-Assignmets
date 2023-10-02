@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/Users/jeonhyojae/Dev/Python Projects/University-Assignments/K-MOOC 일반인을 위한 물리코딩/.venv/bin/python3" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from nbconvert.nbconvertapp import dejavu_main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(dejavu_main())
