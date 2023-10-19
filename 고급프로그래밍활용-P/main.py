@@ -1,9 +1,9 @@
-n = int(input())
+total = 1
 
-for _ in range(n, 0, -1):
-	for i in range(0, (n-_)):
-		print(" ", end="")
-	for j in range(0, _ * 2 - 1):
-		print("*", end="")
-	
-	print("")
+for i in range(20):
+
+    if i % 7 == 3:
+
+        total *= i
+
+print(total)
