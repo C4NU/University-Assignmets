@@ -87,7 +87,7 @@ def calc_determinant(matrix):
 
 				for i in range(1, matrix['size'][0]):
 					sub_row = []
-					for j in range(matrix['size'[1]]):
+					for j in range(matrix['size'][1]):
 						if j != col:
 							sub_row.append(matrix['data'][i][j])
 					sub_matrix.append(sub_row)
