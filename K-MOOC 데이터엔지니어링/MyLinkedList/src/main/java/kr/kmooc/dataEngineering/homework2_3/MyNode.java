@@ -4,6 +4,14 @@ public class MyNode<E> {
     private MyNode<E> prev;
     private MyNode<E> next;
 
+    /**
+     * MyLinkedList용 새로운 MyNode를 생성한다.
+     *
+     * @param prev 이전 노드
+     * @param item 아이템
+     * @param next 다음 노드
+     */
+
     public MyNode(MyNode<E> prev, E item, MyNode<E> next) {
         this.prev = prev;
         this.item = item;

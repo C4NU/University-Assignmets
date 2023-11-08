@@ -156,9 +156,9 @@ def print_matrix(matrix, f, var):
 
 def main():
 	# 파일을 읽어올 경로와 파일명
-	input_file_path = "input.txt"
+	input_file_path = "input01.txt"
 	# 파일을 출력할 경로와 파일명
-	output_file_path = "output.txt"
+	output_file_path = "output01.txt"
 
 	index = 0
 	

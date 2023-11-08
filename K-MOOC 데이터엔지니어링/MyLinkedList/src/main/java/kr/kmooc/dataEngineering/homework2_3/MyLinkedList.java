@@ -43,8 +43,21 @@ public class MyLinkedList<E> implements List<E>, Queue<E>{
 
     @Override
     public boolean offer(E e) {
-// TODO Auto-generated method stub
-        return false;
+        if (first == null)
+        {
+            MyNode<E> newNode = new MyNode<E>(null, e, null);
+            first = newNode;
+            last = newNode;
+            size++;
+        }
+        else
+        {
+            MyNode<E> newNode = new MyNode<E>(last, e, null);
+            last.setNext(newNode);
+            last= newNode;
+            size++;
+        }
+        return true;
     }
     @Override
     public E remove() {
@@ -62,9 +75,16 @@ public class MyLinkedList<E> implements List<E>, Queue<E>{
         return null;
     }
     @Override
-    public E peek() {
-// TODO Auto-generated method stub
-        return null;
+    public E peek()
+    {
+        if (size == 0)
+        {
+            return null;
+        }
+        else
+        {
+            return remove(0);
+        }
     }
     @Override
     public int size() {
