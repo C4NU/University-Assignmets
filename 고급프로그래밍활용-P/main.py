@@ -1,33 +1,31 @@
-def spell_check(a):
-	if a == 'a' or a == 'e' or a == 'i' or a == 'o' or a == 'u':
-		return True
-	else:
-		return False
-
 n = int(input())
 
-input_list = list()
+data = []
+data_2 = []
 
-consonant = list()
-vowel = list()
-
-for _ in range(0, n):
-	input_list.append(input())
-
-	if spell_check(input_list[_]):
-		vowel.append(input_list[_])
+for i in range(0, n):
+	temp = int(input())
+	if data.__contains__(temp):
+		continue
 	else:
-		consonant.append(input_list[_])
+		data.append(temp)
 
-for _ in range(1, n+1):
-	try:
-		if _ % 2 == 1:
-			print(consonant.pop(0), end="")
-		else:
-			print(vowel.pop(0), end="")
-	except IndexError:
-		if _ % 2 == 1:
-			print(vowel.pop(0), end="")
-		else:
-			print(consonant.pop(0), end="")
+for i in range(0, len(data)):
+	for j in range(i, len(data)):
+		if data[i] > data[j]:
+			temp = data[i]
+			data[i] = data[j]
+			data[j] = temp
+		
+print(f"Up = {data}")
 
+for i in range(len(data)-1, -1, -1):
+	data_2.append(data[i])
+
+print(f"Down = {data_2}")
+
+final = []
+for i in range(0, len(data)):
+	final.append(data[i] + data_2[i])
+
+print(f"Final = {final}")
